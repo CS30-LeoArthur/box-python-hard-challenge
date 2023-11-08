@@ -36,18 +36,12 @@ def create_wall_list():
 def check_collision(player):
     for i in range(len(wall_list)):
         if rectCollide(player, wall_list[i]):
-            return True
+            return i
     
-    return False
+    return -1
 
 def rectCollide(rect1, rect2):
     return rect1.x < rect2.x + rect2.width and rect1.y < rect2.y + rect2.height and rect1.x + rect1.width > rect2.x and rect1.y + rect1.height > rect2.y
-
-def back_to_start(player):
-    player.x = 200
-    player.y = 380
-    player.change_x = 0
-    player.change_y = 0
 
 
         
@@ -78,12 +72,20 @@ class Player():
 
     def update(self):
         self.x += self.change_x
-        if check_collision(self) == True:
-            back_to_start(self)
+        wall_index = check_collision(self)
+        if wall_index != -1:
+            print(self.change_x)
+            if self.change_x > 0:
+                self.x = wall_list[wall_index].x - self.width
+            else:
+                self.x = wall_list[wall_index].x + wall_list[wall_index].width
+        
+
 
         self.y += self.change_y
-        if check_collision(self) == True:
-            back_to_start(self)
+
+        
+            
             
 
     def stop(self):
@@ -126,11 +128,9 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     player.go_down()
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     player.stop()
-                elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    player.stop()
-
+                
         # LOGIC STUFF 
         player.update()       
 
