@@ -71,19 +71,22 @@ class Player():
         self.change_y = 3
 
     def update(self):
+        # Horizontal collision check
         self.x += self.change_x
         wall_index = check_collision(self)
         if wall_index != -1:
-            print(self.change_x)
             if self.change_x > 0:
                 self.x = wall_list[wall_index].x - self.width
             else:
                 self.x = wall_list[wall_index].x + wall_list[wall_index].width
-        
-
-
+        # Vertical collision check
         self.y += self.change_y
-
+        wall_index = check_collision(self)
+        if wall_index != -1:
+            if self.change_y > 0:
+                self.y = wall_list[wall_index].y - self.height
+            elif self.change_y < 0:
+                self.y = wall_list[wall_index].y + wall_list[wall_index].height
         
             
             
