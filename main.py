@@ -142,7 +142,6 @@ def main():
         player.update()       
 
         # Draw Stuff
-
         # Player
         player.draw_player(screen)
         # Walls
